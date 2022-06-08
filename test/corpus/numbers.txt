@@ -1,0 +1,33 @@
+=======
+Numbers
+=======
+
+10
+10.1
+10e-3
+1.1e10
+0b1011
+0B1001
+0o6047
+0O3641
+0x6aF7
+0Xba4D
+1.1e10n
+1.1e10 n
+
+---
+
+(source_file
+  (number)
+  (number)
+  (number)
+  (number)
+  (number)
+  (number)
+  (number)
+  (number)
+  (number)
+  (number)
+  (number)
+  (number)
+  (variable))

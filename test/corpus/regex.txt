@@ -1,0 +1,20 @@
+=====
+Regex
+=====
+
+const name = /Hello[/]/
+const name = /Hello\//
+
+---
+
+(source_file
+  (variable_declaration_statement
+    (variable_declaration_keyword)
+    (variable)
+    (assignment_operator)
+    (regex))
+  (variable_declaration_statement
+    (variable_declaration_keyword)
+    (variable)
+    (assignment_operator)
+    (regex)))

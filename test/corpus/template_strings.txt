@@ -1,0 +1,40 @@
+================
+Template Strings
+================
+
+`string text`
+
+`string text line 1
+strign text line 2`
+
+`string text ${expression} string text`
+`string text ${expression1} string text ${expression2}`
+
+`string text $`
+`string text \${}`
+`string text \` ${hello}`
+`${Hello}${Bye}`
+
+---
+
+(source_file
+  (template_string)
+  (template_string)
+  (template_string
+    (template_string_interpolation
+      (variable)))
+  (template_string
+    (template_string_interpolation
+      (variable))
+    (template_string_interpolation
+      (variable)))
+  (template_string)
+  (template_string)
+  (template_string
+    (template_string_interpolation
+      (variable)))
+  (template_string
+    (template_string_interpolation
+      (variable))
+    (template_string_interpolation
+      (variable))))

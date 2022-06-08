@@ -1,0 +1,31 @@
+===================
+Try Catch Statement
+===================
+
+try {
+  hello
+} catch (err) {
+  hello;
+} finally {
+  name;
+}
+
+---
+
+(source_file
+  (try_statement
+    (try_keyword)
+    (statement_block
+      (variable)))
+  (catch_statement
+    (catch_keyword)
+    (function_params
+      (param))
+    (statement_block
+      (variable)
+      (semicolon)))
+  (finally_statement
+    (finally_keyword)
+    (statement_block
+      (variable)
+      (semicolon))))

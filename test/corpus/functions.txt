@@ -1,0 +1,171 @@
+=====================
+Traditional Functions
+=====================
+
+function function_name(param1, param2 = "hi", { param3, param4 = "hi" }, [ param5, param6 = "hi" ]) {
+  return false;
+}
+
+async function (param1, param2 = {}) {
+  const name = {};
+}
+
+---
+
+(source_file
+  (traditional_function_declaration_statement
+    (function_keyword)
+    (function_name)
+    (function_params
+      (param)
+      (comma)
+      (param_with_default_value
+        (param)
+        (assignment_operator)
+        (string))
+      (comma)
+      (object_destructuring_param
+        (param)
+        (comma)
+        (param_with_default_value
+          (param)
+          (assignment_operator)
+          (string)))
+      (comma)
+      (array_destructuring_param
+        (param)
+        (comma)
+        (param_with_default_value
+          (param)
+          (assignment_operator)
+          (string))))
+    (statement_block
+      (return_statement
+        (return_keyword)
+        (boolean))
+      (semicolon)))
+  (traditional_function_declaration_statement
+    (async_keyword)
+    (function_keyword)
+    (function_params
+      (param)
+      (comma)
+      (param_with_default_value
+        (param)
+        (assignment_operator)
+        (object)))
+    (statement_block
+      (variable_declaration_statement
+        (variable_declaration_keyword)
+        (variable)
+        (assignment_operator)
+        (object))
+      (semicolon))))
+
+===============
+Arrow functions
+===============
+
+async param => variable1 in variable2;
+(param) => {1.1}
+(param1, param2 = "string") => {
+  false;
+}
+
+---
+
+(source_file
+  (relational_operation
+    (arrow_function_declaration_statement
+      (async_keyword)
+      (param)
+      (arrow_function_keyword)
+      (variable))
+    (relational_operator
+      (in_keyword))
+    (variable))
+  (semicolon)
+  (arrow_function_declaration_statement
+    (function_params
+      (param))
+    (arrow_function_keyword)
+    (statement_block
+      (number)))
+  (arrow_function_declaration_statement
+    (function_params
+      (param)
+      (comma)
+      (param_with_default_value
+        (param)
+        (assignment_operator)
+        (string)))
+    (arrow_function_keyword)
+    (statement_block
+      (boolean)
+      (semicolon))))
+
+==========
+Generators
+==========
+
+function* function_name(param1, param2 = "hi", { param3, param4 = "hi" }, [ param5, param6 = "hi" ]) {
+  yield false;
+}
+
+function *(param1, param2 = {}) {
+  const name = {};
+}
+
+---
+
+(source_file
+  (traditional_function_declaration_statement
+    (function_keyword)
+    (generator_asterisk_keyword)
+    (function_name)
+    (function_params
+      (param)
+      (comma)
+      (param_with_default_value
+        (param)
+        (assignment_operator)
+        (string))
+      (comma)
+      (object_destructuring_param
+        (param)
+        (comma)
+        (param_with_default_value
+          (param)
+          (assignment_operator)
+          (string)))
+      (comma)
+      (array_destructuring_param
+        (param)
+        (comma)
+        (param_with_default_value
+          (param)
+          (assignment_operator)
+          (string))))
+    (statement_block
+      (yield_statement
+        (yield_keyword)
+        (boolean))
+      (semicolon)))
+  (traditional_function_declaration_statement
+    (function_keyword)
+    (generator_asterisk_keyword)
+    (function_params
+      (param)
+      (comma)
+      (param_with_default_value
+        (param)
+        (assignment_operator)
+        (object)))
+    (statement_block
+      (variable_declaration_statement
+        (variable_declaration_keyword)
+        (variable)
+        (assignment_operator)
+        (object))
+      (semicolon))))
+

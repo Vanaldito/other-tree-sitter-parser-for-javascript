@@ -1,0 +1,19 @@
+=======
+Strings
+=======
+
+"Hello World"
+'Hello// World'
+"\" Hello World"
+'Hello World \' Hello World'
+"Hello \
+my Name is Fredi"
+
+---
+
+(source_file
+  (string)
+  (string)
+  (string)
+  (string)
+  (string))

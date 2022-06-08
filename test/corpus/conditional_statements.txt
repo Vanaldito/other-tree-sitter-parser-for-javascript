@@ -1,0 +1,134 @@
+==================
+If Else Statements
+==================
+
+if (hello > 10) {
+  const name = "Fredi";
+}
+
+if (hello > 20) const name = "21";
+
+if (name < 10) hello = "9";
+else if (name > 10) hello = "11";
+else { hello = "10" }
+
+else {{}}
+
+---
+
+(source_file
+  (if_statement
+    (if_keyword)
+    (parenthized_expression
+      (relational_operation
+        (variable)
+        (relational_operator)
+        (number)))
+    (statement_block
+      (variable_declaration_statement
+        (variable_declaration_keyword)
+        (variable)
+        (assignment_operator)
+        (string))
+      (semicolon)))
+  (if_statement
+    (if_keyword)
+    (parenthized_expression
+      (relational_operation
+        (variable)
+        (relational_operator)
+        (number)))
+    (variable_declaration_statement
+      (variable_declaration_keyword)
+      (variable)
+      (assignment_operator)
+      (string)))
+  (semicolon)
+  (if_statement
+    (if_keyword)
+    (parenthized_expression
+      (relational_operation
+        (variable)
+        (relational_operator)
+        (number)))
+    (reassignment_operation
+      (variable)
+      (reassignment_operator)
+      (string)))
+  (semicolon)
+  (else_statement
+    (else_keyword)
+    (if_statement
+      (if_keyword)
+      (parenthized_expression
+        (relational_operation
+          (variable)
+          (relational_operator)
+          (number)))
+      (reassignment_operation
+        (variable)
+        (reassignment_operator)
+        (string))))
+  (semicolon)
+  (else_statement
+    (else_keyword)
+    (statement_block
+      (reassignment_operation
+        (variable)
+        (reassignment_operator)
+        (string))))
+  (else_statement
+    (else_keyword)
+    (statement_block
+      (statement_block))))
+
+=================
+Switch Statements
+=================
+
+switch (variable1 + variable2) {
+  case 1:
+    variable1 = "string-text-1";
+  case 2:
+    variable1 = "string-text-2";
+  default:
+    variable1 = "string_text_3";
+}
+
+---
+
+(source_file
+  (switch_statement
+    (switch_keyword)
+    (parenthized_expression
+      (arithmetic_operation
+        (variable)
+        (arithmetic_operator)
+        (variable)))
+    (switch_block
+      (switch_case
+        (case_keyword)
+        (number)
+        (colon)
+        (reassignment_operation
+          (variable)
+          (reassignment_operator)
+          (string))
+        (semicolon))
+      (switch_case
+        (case_keyword)
+        (number)
+        (colon)
+        (reassignment_operation
+          (variable)
+          (reassignment_operator)
+          (string))
+        (semicolon))
+      (switch_default
+        (default_keyword)
+        (colon)
+        (reassignment_operation
+          (variable)
+          (reassignment_operator)
+          (string))
+        (semicolon)))))

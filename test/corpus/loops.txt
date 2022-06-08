@@ -1,0 +1,111 @@
+================
+While Statements
+================
+
+while (n > 10) {
+  const variable1 = "string-text-1";
+  const variable2 = "string-text-2";
+  break;
+}
+
+while (n > 10) n;
+
+---
+
+(source_file
+  (while_statement
+    (while_keyword)
+    (parenthized_expression
+      (relational_operation
+        (variable)
+        (relational_operator)
+        (number)))
+    (statement_block
+      (variable_declaration_statement
+        (variable_declaration_keyword)
+        (variable)
+        (assignment_operator)
+        (string))
+      (semicolon)
+      (variable_declaration_statement
+        (variable_declaration_keyword)
+        (variable)
+        (assignment_operator)
+        (string))
+      (semicolon)
+      (break_statement
+        (break_keyword))
+      (semicolon)))
+  (while_statement
+    (while_keyword)
+    (parenthized_expression
+      (relational_operation
+        (variable)
+        (relational_operator)
+        (number)))
+    (variable))
+  (semicolon))
+
+==============
+For Statements
+==============
+
+for (let i = 0; i < 10; i++) {
+  const name = "10";
+  continue;
+}
+
+for (let i in name) i;
+for await (let i of name) i;
+
+---
+
+(source_file
+  (for_statement
+    (for_keyword)
+    (for_initialization
+      (variable_declaration_statement
+        (variable_declaration_keyword)
+        (variable)
+        (assignment_operator)
+        (number))
+      (semicolon)
+      (relational_operation
+        (variable)
+        (relational_operator)
+        (number))
+      (semicolon)
+      (increment_operation
+        (variable)
+        (increment_operator)))
+    (statement_block
+      (variable_declaration_statement
+        (variable_declaration_keyword)
+        (variable)
+        (assignment_operator)
+        (string))
+      (semicolon)
+      (continue_statement
+        (continue_keyword))
+      (semicolon)))
+  (for_statement
+    (for_keyword)
+    (for_initialization
+      (in_of_variable_declaration
+        (variable_declaration_keyword)
+        (variable)
+        (in_keyword)
+        (variable)))
+    (variable))
+  (semicolon)
+  (for_statement
+    (for_keyword)
+    (for_initialization
+      (await_keyword)
+      (in_of_variable_declaration
+        (variable_declaration_keyword)
+        (variable)
+        (of_keyword)
+        (variable)))
+    (variable))
+  (semicolon))

@@ -1,0 +1,15 @@
+====
+Test
+====
+
+(hello) => {1.1}
+
+---
+
+(source_file
+  (arrow_function_declaration_statement
+    (function_params
+      (param))
+    (arrow_function_keyword)
+    (statement_block
+      (number))))

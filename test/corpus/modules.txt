@@ -1,0 +1,214 @@
+=================
+Import Statements
+=================
+
+import defaultExport from "module-name";
+import * as name from "module-name";
+import { export1 } from "module-name";
+import { export1 as alias1 } from "module-name";
+import { export1, export2 } from "module-name";
+import { export1, export2 as alias2 } from "module-name";
+import defaultExport, { export1 } from "module-name";
+import defaultExport, * as name from "module-name";
+import "module-name";
+
+---
+
+(source_file
+  (import_statement
+    (import_keyword)
+    (default_import
+      (variable))
+    (from_keyword)
+    (string))
+  (semicolon)
+  (import_statement
+    (import_keyword)
+    (import_entire_module
+      (import_asterisk)
+      (as_keyword)
+      (variable))
+    (from_keyword)
+    (string))
+  (semicolon)
+  (import_statement
+    (import_keyword)
+    (normal_import
+      (variable))
+    (from_keyword)
+    (string))
+  (semicolon)
+  (import_statement
+    (import_keyword)
+    (normal_import
+      (import_alias
+        (variable)
+        (as_keyword)
+        (variable)))
+    (from_keyword)
+    (string))
+  (semicolon)
+  (import_statement
+    (import_keyword)
+    (normal_import
+      (variable)
+      (comma)
+      (variable))
+    (from_keyword)
+    (string))
+  (semicolon)
+  (import_statement
+    (import_keyword)
+    (normal_import
+      (variable)
+      (comma)
+      (import_alias
+        (variable)
+        (as_keyword)
+        (variable)))
+    (from_keyword)
+    (string))
+  (semicolon)
+  (import_statement
+    (import_keyword)
+    (default_import
+      (variable))
+    (comma)
+    (normal_import
+      (variable))
+    (from_keyword)
+    (string))
+  (semicolon)
+  (import_statement
+    (import_keyword)
+    (default_import
+      (variable))
+    (comma)
+    (import_entire_module
+      (import_asterisk)
+      (as_keyword)
+      (variable))
+    (from_keyword)
+    (string))
+  (semicolon)
+  (import_statement
+    (import_keyword)
+    (string))
+  (semicolon))
+
+=================
+Export Statements
+=================
+
+export let name1, name2
+export let name1 = "Hello"
+export function function_name() {10}
+
+export { name1, name2 }
+
+export { variable1 as name1, variable2 }
+
+export default variable
+export default function function_name() {1}
+export { name1 as default, name2 }
+
+export * from "string"
+export * as name from "string"
+export { name1, name2 as alias2 } from "string"
+export { default } from "string"
+
+---
+
+(source_file
+  (export_statement
+    (export_keyword)
+    (variable_declaration_statement
+      (variable_declaration_keyword)
+      (variable)
+      (comma)
+      (variable)))
+  (export_statement
+    (export_keyword)
+    (variable_declaration_statement
+      (variable_declaration_keyword)
+      (variable)
+      (assignment_operator)
+      (string)))
+  (export_statement
+    (export_keyword)
+    (traditional_function_declaration_statement
+      (function_keyword)
+      (function_name)
+      (function_params)
+      (statement_block
+        (number))))
+  (export_statement
+    (export_keyword)
+    (normal_export
+      (variable)
+      (comma)
+      (variable)))
+  (export_statement
+    (export_keyword)
+    (normal_export
+      (export_alias
+        (variable)
+        (as_keyword)
+        (variable))
+      (comma)
+      (variable)))
+  (export_statement
+    (export_keyword)
+    (default_keyword)
+    (variable))
+  (export_statement
+    (export_keyword)
+    (default_keyword)
+    (traditional_function_declaration_statement
+      (function_keyword)
+      (function_name)
+      (function_params)
+      (statement_block
+        (number))))
+  (export_statement
+    (export_keyword)
+    (normal_export
+      (export_alias
+        (variable)
+        (as_keyword)
+        (default_keyword))
+      (comma)
+      (variable)))
+  (export_statement
+    (export_keyword)
+    (export_entire_module
+      (export_asterisk)
+      (from_keyword)
+      (string)))
+  (export_statement
+    (export_keyword)
+    (export_entire_module
+      (export_asterisk)
+      (as_keyword)
+      (variable)
+      (from_keyword)
+      (string)))
+  (export_statement
+    (export_keyword)
+    (export_normally_from_module
+      (normal_export
+        (variable)
+        (comma)
+        (export_alias
+          (variable)
+          (as_keyword)
+          (variable)))
+      (from_keyword)
+      (string)))
+  (export_statement
+    (export_keyword)
+    (export_normally_from_module
+      (normal_export
+        (default_keyword))
+      (from_keyword)
+      (string))))

@@ -1,0 +1,89 @@
+=========
+Variables
+=========
+
+const variable1 = await "Hello";
+let variable1 = "Hello" + variable2;
+let variable1;
+
+let [variable1, variable2] = "string_text";
+let [variable1, variable2 = "Bye"] = "string_text";
+let {variable1, variable2} = "string_text";
+let {variable1, variable2 = "Bye"} = "string_text";
+
+let variable1 = "Name", variable2 = 10;
+
+---
+
+(source_file
+  (variable_declaration_statement
+    (variable_declaration_keyword)
+    (variable)
+    (assignment_operator)
+    (await_expression
+      (await_keyword)
+      (string)))
+  (semicolon)
+  (variable_declaration_statement
+    (variable_declaration_keyword)
+    (variable)
+    (assignment_operator)
+    (arithmetic_operation
+      (string)
+      (arithmetic_operator)
+      (variable)))
+  (semicolon)
+  (variable_declaration_statement
+    (variable_declaration_keyword)
+    (variable))
+  (semicolon)
+  (variable_declaration_statement
+    (variable_declaration_keyword)
+    (array_destructuring_assignment
+      (variable)
+      (comma)
+      (variable))
+    (assignment_operator)
+    (string))
+  (semicolon)
+  (variable_declaration_statement
+    (variable_declaration_keyword)
+    (array_destructuring_assignment
+      (variable)
+      (comma)
+      (variable)
+      (assignment_operator)
+      (string))
+    (assignment_operator)
+    (string))
+  (semicolon)
+  (variable_declaration_statement
+    (variable_declaration_keyword)
+    (object_destructuring_assignment
+      (variable)
+      (comma)
+      (variable))
+    (assignment_operator)
+    (string))
+  (semicolon)
+  (variable_declaration_statement
+    (variable_declaration_keyword)
+    (object_destructuring_assignment
+      (variable)
+      (comma)
+      (variable)
+      (assignment_operator)
+      (string))
+  (assignment_operator)
+  (string))
+  (semicolon)
+  (variable_declaration_statement
+    (variable_declaration_keyword)
+    (variable)
+    (assignment_operator)
+    (string)
+    (comma)
+    (variable)
+    (assignment_operator)
+    (number))
+  (semicolon))

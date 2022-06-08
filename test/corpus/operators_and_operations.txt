@@ -1,0 +1,115 @@
+========================
+Operators and Operations
+========================
+
++variable1
+
+typeof variable1
+
+varaible1 + variable2
+
+variable1 + variable2 - variable3
++variable4
+
+variable1 + variable2 - variable3;
++variable4
+
+variable1 << variable2
+
+variable1 & variable2
+
+variable1 && variable2
+
+variable1 = variable2 && variable3;
+
+-variable1++;
+
+[variable1, variable2 = 10] = variable3, variable4
+{hello} = name
+
+hello ? 10 : "string"
+
+---
+
+(source_file
+  (unary_operation
+    (unary_operator)
+    (variable))
+  (unary_operation
+    (unary_operator
+      (typeof_keyword))
+    (variable))
+  (arithmetic_operation
+    (variable)
+    (arithmetic_operator)
+    (variable))
+  (arithmetic_operation
+    (arithmetic_operation
+      (arithmetic_operation
+        (variable)
+        (arithmetic_operator)
+        (variable))
+      (arithmetic_operator)
+      (variable))
+    (arithmetic_operator)
+    (variable))
+  (arithmetic_operation
+    (arithmetic_operation
+        (variable)
+        (arithmetic_operator)
+        (variable))
+    (arithmetic_operator)
+    (variable))
+  (semicolon)
+  (unary_operation
+    (unary_operator)
+    (variable))
+  (bitwise_shift_operation
+    (variable)
+    (bitwise_shift_operator)
+    (variable))
+  (binary_bitwise_operation
+    (variable)
+    (binary_bitwise_operator)
+    (variable))
+  (binary_logical_operation
+    (variable)
+    (binary_logical_operator)
+    (variable))
+  (reassignment_operation
+    (variable)
+    (reassignment_operator)
+    (binary_logical_operation
+      (variable)
+      (binary_logical_operator)
+      (variable)))
+  (semicolon)
+  (unary_operation
+    (unary_operator)
+    (increment_operation
+      (variable)
+      (increment_operator)))
+  (semicolon)
+  (reassignment_operation
+    (array_destructuring_assignment
+      (variable)
+      (comma)
+      (variable)
+      (assignment_operator)
+      (number))
+    (reassignment_operator)
+    (comma_operation
+      (variable)
+      (comma)
+      (variable)))
+  (reassignment_operation
+    (object_destructuring_assignment
+      (variable))
+    (reassignment_operator)
+    (variable))
+  (ternary_operation
+    (variable)
+    (question_mark_operator)
+    (number)
+    (colon_operator)
+    (string)))

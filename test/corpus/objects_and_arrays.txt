@@ -1,0 +1,87 @@
+======
+Arrays
+======
+
+const name = ["Hello", "HI" + "HI"];
+["Hello", hi, 1, [1, 2]];
+[hello]
+
+---
+
+(source_file
+  (variable_declaration_statement
+    (variable_declaration_keyword)
+    (variable)
+    (assignment_operator)
+    (array
+      (string)
+      (comma)
+      (arithmetic_operation
+        (string)
+        (arithmetic_operator)
+        (string))))
+  (semicolon)
+  (array
+    (string)
+    (comma)
+    (variable)
+    (comma)
+    (number)
+    (comma)
+    (array
+      (number)
+      (comma)
+      (number)))
+  (semicolon)
+  (array
+    (variable)))
+
+=======
+Objects
+=======
+
+const variable1 = {
+  hello,
+  hello: "Value",
+  "hello": "Value",
+  [variable1 + variable2]: variable3,
+}
+
+const name = {property}
+
+---
+
+(source_file
+  (variable_declaration_statement
+    (variable_declaration_keyword)
+    (variable)
+    (assignment_operator)
+    (object
+      (shorthand_property
+        (property_name))
+      (comma)
+      (key_value_property
+        (property_name)
+        (colon)
+        (string))
+      (comma)
+      (string_key_value_property
+        (string)
+        (colon)
+        (string))
+      (comma)
+      (computed_key_value_property
+        (arithmetic_operation
+          (variable)
+          (arithmetic_operator)
+          (variable))
+        (colon)
+        (variable))
+      (comma)))
+  (variable_declaration_statement
+    (variable_declaration_keyword)
+    (variable)
+    (assignment_operator)
+    (object
+      (shorthand_property
+        (property_name)))))

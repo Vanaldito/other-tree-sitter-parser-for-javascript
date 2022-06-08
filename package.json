@@ -1,0 +1,34 @@
+{
+  "name": "tree-sitter-test",
+  "version": "1.0.0",
+  "description": "",
+  "main": "bindings/node",
+  "scripts": {
+    "dev": "yarn build && yarn test",
+    "build": "tree-sitter generate",
+    "test": "tree-sitter test",
+    "parse": "tree-sitter parse test/parse/parse.js",
+    "highlight": "tree-sitter highlight test/highlight/init.js"
+  },
+  "keywords": [
+    "tree-sitter"
+  ],
+  "author": "Vanaldito",
+  "license": "MIT",
+  "dependencies": {
+    "nan": "^2.15.0"
+  },
+  "tree-sitter": [
+    {
+      "scope": "source.js",
+      "file-types": [
+        "js",
+        "javascript"
+      ],
+      "highlights": [
+        "queries/highlights.scm"
+      ],
+      "injection-regex": "javascript"
+    }
+  ]
+}

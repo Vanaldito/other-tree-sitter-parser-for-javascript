@@ -1,0 +1,32 @@
+==================
+Property Accessors
+==================
+
+console.log(person2['lastname']);
+const dogName = adventurer.dog?.name;
+
+---
+
+(source_file
+  (property_accessor
+    (variable)
+    (dot)
+    (function_call
+      (function_name)
+      (function_call_params
+        (property_accessor
+          (variable)
+          (string)))))
+  (semicolon)
+  (variable_declaration_statement
+    (variable_declaration_keyword)
+    (variable)
+    (assignment_operator)
+    (property_accessor
+      (property_accessor
+        (variable)
+        (dot)
+        (property_name))
+      (optional_chaining)
+      (property_name)))
+  (semicolon))

@@ -1,0 +1,76 @@
+=======
+Classes
+=======
+
+class Hello extends Name {
+  constructor(string, variable) {
+    10
+  }
+
+  async *name({hello}) {
+    return true;
+  }
+
+  static hello() {
+    1.1
+  }
+
+  static #hello = "string";
+}
+
+const hello = new Hello("hello", variable);
+
+---
+
+(source_file
+  (class_declaration_statement
+    (class_keyword)
+    (variable)
+    (extends_keyword)
+    (variable)
+    (class_block
+      (method_definition
+        (function_name)
+        (function_params
+          (param)
+          (comma)
+          (param))
+        (statement_block
+          (number)))
+      (method_definition
+        (async_keyword)
+        (generator_asterisk_keyword)
+        (function_name)
+        (function_params
+          (object_destructuring_param
+            (param)))
+        (statement_block
+          (return_statement
+            (return_keyword)
+            (boolean))
+          (semicolon)))
+      (method_definition
+        (static_keyword)
+        (function_name)
+        (function_params)
+        (statement_block
+          (number)))
+      (property_definition
+        (static_keyword)
+        (property_name)
+        (assignment_operator)
+        (string))
+      (semicolon)))
+  (variable_declaration_statement
+    (variable_declaration_keyword)
+    (variable)
+    (assignment_operator)
+    (new_instance_statement
+      (new_keyword)
+      (function_call
+        (function_name)
+        (function_call_params
+          (string)
+          (comma)
+          (variable)))))
+  (semicolon))
