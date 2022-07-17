@@ -30,45 +30,45 @@ module.exports = grammar({
     source_file: ($) => repeat($._all),
 
     // Keywords
-    import_keyword: ($) => "import",
-    export_keyword: ($) => "export",
-    from_keyword: ($) => "from",
-    as_keyword: ($) => "as",
-    variable_declaration_keyword: ($) => choice("let", "var", "const"),
-    if_keyword: ($) => "if",
-    else_keyword: ($) => "else",
-    switch_keyword: ($) => "switch",
-    case_keyword: ($) => "case",
-    default_keyword: ($) => "default",
-    while_keyword: ($) => "while",
-    do_keyword: ($) => "do",
-    for_keyword: ($) => "for",
-    instanceof_keyword: ($) => "instanceof",
-    in_keyword: ($) => "in",
-    of_keyword: ($) => "of",
-    await_keyword: ($) => "await",
-    function_keyword: ($) => "function",
-    arrow_function_keyword: ($) => "=>",
-    return_keyword: ($) => "return",
-    yield_keyword: ($) => "yield",
-    generator_asterisk_keyword: ($) => "*",
-    async_keyword: ($) => "async",
-    continue_keyword: ($) => "continue",
-    break_keyword: ($) => "break",
-    class_keyword: ($) => "class",
-    extends_keyword: ($) => "extends",
-    static_keyword: ($) => "static",
-    get_keyword: ($) => "get",
-    set_keyword: ($) => "set",
-    new_keyword: ($) => "new",
-    try_keyword: ($) => "try",
-    catch_keyword: ($) => "catch",
-    finally_keyword: ($) => "finally",
-    void_keyword: ($) => "void",
-    typeof_keyword: ($) => "typeof",
-    delete_keyword: ($) => "delete",
-    debugger_keyword: ($) => "debugger",
-    throw_keyword: ($) => "throw",
+    import_keyword: (_$) => "import",
+    export_keyword: (_$) => "export",
+    from_keyword: (_$) => "from",
+    as_keyword: (_$) => "as",
+    variable_declaration_keyword: (_$) => choice("let", "var", "const"),
+    if_keyword: (_$) => "if",
+    else_keyword: (_$) => "else",
+    switch_keyword: (_$) => "switch",
+    case_keyword: (_$) => "case",
+    default_keyword: (_$) => "default",
+    while_keyword: (_$) => "while",
+    do_keyword: (_$) => "do",
+    for_keyword: (_$) => "for",
+    instanceof_keyword: (_$) => "instanceof",
+    in_keyword: (_$) => "in",
+    of_keyword: (_$) => "of",
+    await_keyword: (_$) => "await",
+    function_keyword: (_$) => "function",
+    arrow_function_keyword: (_$) => "=>",
+    return_keyword: (_$) => "return",
+    yield_keyword: (_$) => "yield",
+    generator_asterisk_keyword: (_$) => "*",
+    async_keyword: (_$) => "async",
+    continue_keyword: (_$) => "continue",
+    break_keyword: (_$) => "break",
+    class_keyword: (_$) => "class",
+    extends_keyword: (_$) => "extends",
+    static_keyword: (_$) => "static",
+    get_keyword: (_$) => "get",
+    set_keyword: (_$) => "set",
+    new_keyword: (_$) => "new",
+    try_keyword: (_$) => "try",
+    catch_keyword: (_$) => "catch",
+    finally_keyword: (_$) => "finally",
+    void_keyword: (_$) => "void",
+    typeof_keyword: (_$) => "typeof",
+    delete_keyword: (_$) => "delete",
+    debugger_keyword: (_$) => "debugger",
+    throw_keyword: (_$) => "throw",
 
     // Import
     import_statement: ($) =>
@@ -83,7 +83,7 @@ module.exports = grammar({
     _import_for_side_effects: ($) => seq($.import_keyword, $.string),
     _ways_to_import: ($) =>
       choice($.default_import, $.import_entire_module, $.normal_import),
-    import_asterisk: ($) => "*",
+    import_asterisk: (_$) => "*",
     default_import: ($) => $.variable,
     import_entire_module: ($) =>
       seq($.import_asterisk, $.as_keyword, $.variable),
@@ -101,7 +101,8 @@ module.exports = grammar({
         seq($.default_keyword, $._expression),
         $.export_entire_module,
         $.export_normally_from_module,
-        $._all
+        $.variable_declaration_statement,
+        $.traditional_function_declaration_statement,
       ),
     normal_export: ($) =>
       prec(
@@ -116,7 +117,7 @@ module.exports = grammar({
       prec(1, choice($.variable, $.export_alias, $.default_keyword)),
     export_alias: ($) =>
       seq($.variable, $.as_keyword, choice($.default_keyword, $.variable)),
-    export_asterisk: ($) => "*",
+    export_asterisk: (_$) => "*",
     export_entire_module: ($) =>
       seq(
         $.export_asterisk,
@@ -182,34 +183,6 @@ module.exports = grammar({
         seq($.variable, optional(seq(choice($.assignment_operator, $.colon), $._expression)))
       ),
 
-    // Array
-    array: ($) =>
-      seq("[", repeat(prec(1, choice($._expression, $.comma))), "]"),
-
-    // Objects
-    object: ($) =>
-      seq(
-        "{",
-        repeat(
-          choice(
-            $.shorthand_property,
-            $.key_value_property,
-            $.string_key_value_property,
-            $.computed_key_value_property,
-            $.comma
-          )
-        ),
-        "}"
-      ),
-    shorthand_property: ($) => $.property_name,
-    key_value_property: ($) =>
-      prec.left(seq(choice($.property_name), $.colon, $._expression)),
-    string_key_value_property: ($) =>
-      prec.left(seq($.string, $.colon, $._expression)),
-    computed_key_value_property: ($) =>
-      prec.left(seq("[", $._expression, "]", $.colon, $._expression)),
-    property_name: ($) => choice($._identifier, $._number),
-
     // Operator and Operation
     unary_operator: ($) =>
       choice(
@@ -222,32 +195,32 @@ module.exports = grammar({
         "!"
       ),
     unary_operation: ($) => prec.left(1, seq($.unary_operator, $._expression)),
-    arithmetic_operator: ($) => choice("+", "-", "/", "*", "%", "**"),
+    arithmetic_operator: (_$) => choice("+", "-", "/", "*", "%", "**"),
     arithmetic_operation: ($) =>
       prec.left(2, seq($._expression, $.arithmetic_operator, $._expression)),
     relational_operator: ($) =>
       choice($.in_keyword, $.instanceof_keyword, "<", ">", "<=", ">="),
     relational_operation: ($) =>
       prec.left(2, seq($._expression, $.relational_operator, $._expression)),
-    equality_operator: ($) => choice("==", "!=", "===", "!=="),
+    equality_operator: (_$) => choice("==", "!=", "===", "!=="),
     equality_operation: ($) =>
       prec.left(2, seq($._expression, $.equality_operator, $._expression)),
-    bitwise_shift_operator: ($) => choice("<<", ">>", ">>>"),
+    bitwise_shift_operator: (_$) => choice("<<", ">>", ">>>"),
     bitwise_shift_operation: ($) =>
       prec.left(2, seq($._expression, $.bitwise_shift_operator, $._expression)),
-    binary_bitwise_operator: ($) => choice("&", "|", "^"),
+    binary_bitwise_operator: (_$) => choice("&", "|", "^"),
     binary_bitwise_operation: ($) =>
       prec.left(
         2,
         seq($._expression, $.binary_bitwise_operator, $._expression)
       ),
-    binary_logical_operator: ($) => choice("&&", "||", "??"),
+    binary_logical_operator: (_$) => choice("&&", "||", "??"),
     binary_logical_operation: ($) =>
       prec.left(
         2,
         seq($._expression, $.binary_logical_operator, $._expression)
       ),
-    reassignment_operator: ($) =>
+    reassignment_operator: (_$) =>
       choice(
         "=",
         "*=",
@@ -278,7 +251,7 @@ module.exports = grammar({
       choice($._ways_to_assign_variable, $.property_accessor),
     comma_operation: ($) =>
       prec.left(seq($._expression, $.comma, $._expression)),
-    increment_operator: ($) => "++",
+    increment_operator: (_$) => "++",
     increment_operation: ($) =>
       prec.left(
         2,
@@ -287,7 +260,7 @@ module.exports = grammar({
           seq($._expression, $.increment_operator)
         )
       ),
-    decrement_operator: ($) => "--",
+    decrement_operator: (_$) => "--",
     decrement_operation: ($) =>
       prec.left(
         2,
@@ -296,8 +269,8 @@ module.exports = grammar({
           seq($._expression, $.decrement_operator)
         )
       ),
-    question_mark_operator: ($) => "?",
-    colon_operator: ($) => ":",
+    question_mark_operator: (_$) => "?",
+    colon_operator: (_$) => ":",
     ternary_operation: ($) =>
       prec.right(
         2,
@@ -309,7 +282,7 @@ module.exports = grammar({
           $._expression
         )
       ),
-    spread_operator: ($) => "...",
+    spread_operator: (_$) => "...",
     spread_operation: ($) => prec.left(seq($.spread_operator, $._expression)),
     _operation: ($) =>
       choice(
@@ -327,7 +300,7 @@ module.exports = grammar({
         $.ternary_operation,
         $.spread_operation
       ),
-    assignment_operator: ($) => "=",
+    assignment_operator: (_$) => "=",
 
     // Conditional
     if_statement: ($) =>
@@ -475,7 +448,7 @@ module.exports = grammar({
     new_instance_statement: ($) => prec.left(seq($.new_keyword, $._expression)),
 
     // Number
-    _number: ($) => {
+    _number: (_$) => {
       const integer = /\d[0-9_]*/;
       const decimal = /(\d[0-9_]*)?\.\d[0-9_]*/;
       const exponential = seq(choice(integer, decimal), /e[+-]?\d[0-9_]*/);
@@ -510,11 +483,39 @@ module.exports = grammar({
 
     // Booelan and Primitive Value
     variable: ($) => $._identifier,
-    boolean: ($) => choice("true", "false"),
-    nan: ($) => "NaN",
-    undefined: ($) => "undefined",
-    null: ($) => "null",
-    infinity: ($) => "Infinity",
+    boolean: (_$) => choice("true", "false"),
+    nan: (_$) => "NaN",
+    undefined: (_$) => "undefined",
+    null: (_$) => "null",
+    infinity: (_$) => "Infinity",
+
+    // Array
+    array: ($) =>
+      seq("[", repeat(prec(1, choice($._expression, $.comma))), "]"),
+
+    // Objects
+    object: ($) =>
+      seq(
+        "{",
+        repeat(
+          choice(
+            $.shorthand_property,
+            $.key_value_property,
+            $.string_key_value_property,
+            $.computed_key_value_property,
+            $.comma,
+          )
+        ),
+        "}"
+      ),
+    shorthand_property: ($) => $.property_name,
+    key_value_property: ($) =>
+      prec.left(seq($.property_name, $.colon, $._expression)),
+    string_key_value_property: ($) =>
+      prec.left(seq($.string, $.colon, $._expression)),
+    computed_key_value_property: ($) =>
+      prec.left(seq("[", $._expression, "]", $.colon, $._expression)),
+    property_name: ($) => choice($._identifier, $._number),
 
     function_call: ($) =>
       prec(
@@ -588,10 +589,10 @@ module.exports = grammar({
         $.jsx_text,
         $.jsx_fragment
       ),
-    jsx_text: ($) => token.immediate(prec(1, /[^<>{}]+/)),
-    jsx_opening_tag_sign: ($) => "<",
-    jsx_slash: ($) => "/",
-    jsx_closing_tag_sign: ($) => ">",
+    jsx_text: (_$) => token.immediate(prec(1, /[^<>{}]+/)),
+    jsx_opening_tag_sign: (_$) => "<",
+    jsx_slash: (_$) => "/",
+    jsx_closing_tag_sign: (_$) => ">",
 
     // Property Accesors
     property_accessor: ($) =>
@@ -613,7 +614,7 @@ module.exports = grammar({
     import_meta: ($) => seq($.import_keyword, $.dot, $.property_name), // import.meta
     new_target: ($) => seq($.new_keyword, $.dot, $.property_name), // new.target
 
-    comment: ($) =>
+    comment: (_$) =>
       token(
         choice(
           seq("#!", /.*/),
@@ -622,17 +623,17 @@ module.exports = grammar({
         )
       ),
 
-    parenthized_expression: ($) => seq("(", $._expression, ")"),
+    parenthized_expression: ($) => seq("(", optional($._expression), ")"),
     statement_block: ($) => prec(1, seq("{", repeat($._all), "}")),
 
-    semicolon: ($) => ";",
-    colon: ($) => ":",
-    comma: ($) => ",",
-    dot: ($) => ".",
-    optional_chaining: ($) => "?.",
+    semicolon: (_$) => ";",
+    colon: (_$) => ":",
+    comma: (_$) => ",",
+    dot: (_$) => ".",
+    optional_chaining: (_$) => "?.",
 
-    _escaped_character: ($) => /\\.?/,
-    _identifier: ($) => /[a-zA-Z$_#][a-zA-Z0-9$_]*/,
+    _escaped_character: (_$) => /\\.?/,
+    _identifier: (_$) => /[a-zA-Z$_#][a-zA-Z0-9$_]*/,
 
     _expression_no_object: ($) =>
       choice(
@@ -672,6 +673,7 @@ module.exports = grammar({
         $.else_statement,
         $.switch_statement,
         $.while_statement,
+        $.do_while_statement,
         $.for_statement,
         $.return_statement,
         $.throw_statement,
