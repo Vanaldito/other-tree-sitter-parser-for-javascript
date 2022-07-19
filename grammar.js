@@ -103,6 +103,7 @@ module.exports = grammar({
         $.export_normally_from_module,
         $.variable_declaration_statement,
         $.traditional_function_declaration_statement,
+        $.class_declaration_statement,
       ),
     normal_export: ($) =>
       prec(
@@ -183,125 +184,6 @@ module.exports = grammar({
         seq($.variable, optional(seq(choice($.assignment_operator, $.colon), $._expression)))
       ),
 
-    // Operator and Operation
-    unary_operator: ($) =>
-      choice(
-        $.delete_keyword,
-        $.void_keyword,
-        $.typeof_keyword,
-        "+",
-        "-",
-        "~",
-        "!"
-      ),
-    unary_operation: ($) => prec.left(1, seq($.unary_operator, $._expression)),
-    arithmetic_operator: (_$) => choice("+", "-", "/", "*", "%", "**"),
-    arithmetic_operation: ($) =>
-      prec.left(2, seq($._expression, $.arithmetic_operator, $._expression)),
-    relational_operator: ($) =>
-      choice($.in_keyword, $.instanceof_keyword, "<", ">", "<=", ">="),
-    relational_operation: ($) =>
-      prec.left(2, seq($._expression, $.relational_operator, $._expression)),
-    equality_operator: (_$) => choice("==", "!=", "===", "!=="),
-    equality_operation: ($) =>
-      prec.left(2, seq($._expression, $.equality_operator, $._expression)),
-    bitwise_shift_operator: (_$) => choice("<<", ">>", ">>>"),
-    bitwise_shift_operation: ($) =>
-      prec.left(2, seq($._expression, $.bitwise_shift_operator, $._expression)),
-    binary_bitwise_operator: (_$) => choice("&", "|", "^"),
-    binary_bitwise_operation: ($) =>
-      prec.left(
-        2,
-        seq($._expression, $.binary_bitwise_operator, $._expression)
-      ),
-    binary_logical_operator: (_$) => choice("&&", "||", "??"),
-    binary_logical_operation: ($) =>
-      prec.left(
-        2,
-        seq($._expression, $.binary_logical_operator, $._expression)
-      ),
-    reassignment_operator: (_$) =>
-      choice(
-        "=",
-        "*=",
-        "**=",
-        "/=",
-        "%=",
-        "+=",
-        "-=",
-        "<<=",
-        ">>=",
-        ">>>=",
-        "&=",
-        "^=",
-        "|=",
-        "&&=",
-        "||=",
-        "??="
-      ),
-    reassignment_operation: ($) =>
-      prec.right(
-        seq(
-          choice($._ways_to_reassign_variable),
-          $.reassignment_operator,
-          $._expression
-        )
-      ),
-    _ways_to_reassign_variable: ($) =>
-      choice($._ways_to_assign_variable, $.property_accessor),
-    comma_operation: ($) =>
-      prec.left(seq($._expression, $.comma, $._expression)),
-    increment_operator: (_$) => "++",
-    increment_operation: ($) =>
-      prec.left(
-        2,
-        choice(
-          seq($.increment_operator, $._expression),
-          seq($._expression, $.increment_operator)
-        )
-      ),
-    decrement_operator: (_$) => "--",
-    decrement_operation: ($) =>
-      prec.left(
-        2,
-        choice(
-          seq($.decrement_operator, $._expression),
-          seq($._expression, $.decrement_operator)
-        )
-      ),
-    question_mark_operator: (_$) => "?",
-    colon_operator: (_$) => ":",
-    ternary_operation: ($) =>
-      prec.right(
-        2,
-        seq(
-          $._expression,
-          $.question_mark_operator,
-          $._expression,
-          $.colon_operator,
-          $._expression
-        )
-      ),
-    spread_operator: (_$) => "...",
-    spread_operation: ($) => prec.left(seq($.spread_operator, $._expression)),
-    _operation: ($) =>
-      choice(
-        $.unary_operation,
-        $.arithmetic_operation,
-        $.relational_operation,
-        $.equality_operation,
-        $.bitwise_shift_operation,
-        $.binary_bitwise_operation,
-        $.binary_logical_operation,
-        $.reassignment_operation,
-        $.comma_operation,
-        $.increment_operation,
-        $.decrement_operation,
-        $.ternary_operation,
-        $.spread_operation
-      ),
-    assignment_operator: (_$) => "=",
-
     // Conditional
     if_statement: ($) =>
       prec(1, seq(
@@ -357,44 +239,6 @@ module.exports = grammar({
         $._expression
       ),
 
-    traditional_function_declaration_statement: ($) =>
-      seq(
-        optional($.async_keyword),
-        $.function_keyword,
-        optional($.generator_asterisk_keyword),
-        optional($.function_name),
-        $.function_params,
-        $.statement_block
-      ),
-    arrow_function_declaration_statement: ($) =>
-      seq(
-        optional($.async_keyword),
-        choice($.param, $.function_params),
-        $.arrow_function_keyword,
-        choice($.statement_block, $._expression_no_object)
-      ),
-    function_name: ($) => prec(1, $._identifier),
-    function_params: ($) =>
-      seq("(", repeat(choice($._ways_to_declare_param, $.comma)), ")"),
-    param: ($) => $._identifier,
-    param_with_default_value: ($) =>
-      prec.left(seq($.param, $.assignment_operator, $._expression)),
-    param_with_name_change: ($) =>
-      prec.left(seq($.param, $.colon, $.param)),
-    array_destructuring_param: ($) =>
-      seq("[", repeat(choice($._ways_to_declare_param, $.comma)), "]"),
-    object_destructuring_param: ($) =>
-      seq("{", repeat(choice($._ways_to_declare_param, $.comma)), "}"),
-    rest_param: ($) => seq($.spread_operator, $.param),
-    _ways_to_declare_param: ($) =>
-      choice(
-        $.param,
-        $.param_with_default_value,
-        $.param_with_name_change,
-        $.array_destructuring_param,
-        $.object_destructuring_param,
-        $.rest_param
-      ),
 
     label: ($) => seq($.label_name, $.colon),
     label_name: ($) => prec(1, $._identifier),
@@ -481,7 +325,166 @@ module.exports = grammar({
     _regex_group: ($) =>
       seq("[", repeat(choice(/[^\\\]]+/, $._escaped_character)), "]"),
 
-    // Booelan and Primitive Value
+    // Functions
+    traditional_function_declaration_statement: ($) =>
+      seq(
+        optional($.async_keyword),
+        $.function_keyword,
+        optional($.generator_asterisk_keyword),
+        optional($.function_name),
+        $.function_params,
+        $.statement_block
+      ),
+    arrow_function_declaration_statement: ($) =>
+      seq(
+        optional($.async_keyword),
+        choice($.param, $.function_params),
+        $.arrow_function_keyword,
+        choice($.statement_block, $._expression_no_object)
+      ),
+    function_name: ($) => prec(1, $._identifier),
+    function_params: ($) =>
+      seq("(", repeat(choice($._ways_to_declare_param, $.comma)), ")"),
+    param: ($) => $._identifier,
+    param_with_default_value: ($) =>
+      prec.left(seq($.param, $.assignment_operator, $._expression)),
+    param_with_name_change: ($) =>
+      prec.left(seq($.param, $.colon, $.param)),
+    array_destructuring_param: ($) =>
+      seq("[", repeat(choice($._ways_to_declare_param, $.comma)), "]"),
+    object_destructuring_param: ($) =>
+      seq("{", repeat(choice($._ways_to_declare_param, $.comma)), "}"),
+    rest_param: ($) => seq($.spread_operator, $.param),
+    _ways_to_declare_param: ($) =>
+      choice(
+        $.param,
+        $.param_with_default_value,
+        $.param_with_name_change,
+        $.array_destructuring_param,
+        $.object_destructuring_param,
+        $.rest_param
+      ),
+
+    // Operator and Operation
+    unary_operator: ($) =>
+      choice(
+        $.delete_keyword,
+        $.void_keyword,
+        $.typeof_keyword,
+        "+",
+        "-",
+        "~",
+        "!"
+      ),
+    unary_operation: ($) => prec.left(1, seq($.unary_operator, $._expression)),
+    arithmetic_operator: (_$) => choice("+", "-", "/", "*", "%", "**"),
+    arithmetic_operation: ($) =>
+      prec.left(2, seq($._expression, $.arithmetic_operator, $._expression)),
+    relational_operator: ($) =>
+      choice($.in_keyword, $.instanceof_keyword, "<", ">", "<=", ">="),
+    relational_operation: ($) =>
+      prec.left(2, seq($._expression, $.relational_operator, $._expression)),
+    equality_operator: (_$) => choice("==", "!=", "===", "!=="),
+    equality_operation: ($) =>
+      prec.left(2, seq($._expression, $.equality_operator, $._expression)),
+    bitwise_shift_operator: (_$) => choice("<<", ">>", ">>>"),
+    bitwise_shift_operation: ($) =>
+      prec.left(2, seq($._expression, $.bitwise_shift_operator, $._expression)),
+    binary_bitwise_operator: (_$) => choice("&", "|", "^"),
+    binary_bitwise_operation: ($) =>
+      prec.left(
+        2,
+        seq($._expression, $.binary_bitwise_operator, $._expression)
+      ),
+    binary_logical_operator: (_$) => choice("&&", "||", "??"),
+    binary_logical_operation: ($) =>
+      prec.left(
+        2,
+        seq($._expression, $.binary_logical_operator, $._expression)
+      ),
+    reassignment_operator: (_$) =>
+      choice(
+        "=",
+        "*=",
+        "**=",
+        "/=",
+        "%=",
+        "+=",
+        "-=",
+        "<<=",
+        ">>=",
+        ">>>=",
+        "&=",
+        "^=",
+        "|=",
+        "&&=",
+        "||=",
+        "??="
+      ),
+    reassignment_operation: ($) =>
+      prec.right(
+        seq(
+          choice($._ways_to_reassign_variable),
+          $.reassignment_operator,
+          $._expression
+        )
+      ),
+    _ways_to_reassign_variable: ($) =>
+      choice($._ways_to_assign_variable, $.property_accessor),
+    comma_operation: ($) =>
+      prec.right(seq($._expression, $.comma, optional($._expression))),
+    increment_operator: (_$) => "++",
+    increment_operation: ($) =>
+      prec.left(
+        2,
+        choice(
+          seq($.increment_operator, $._expression),
+          seq($._expression, $.increment_operator)
+        )
+      ),
+    decrement_operator: (_$) => "--",
+    decrement_operation: ($) =>
+      prec.left(
+        2,
+        choice(
+          seq($.decrement_operator, $._expression),
+          seq($._expression, $.decrement_operator)
+        )
+      ),
+    question_mark_operator: (_$) => "?",
+    colon_operator: (_$) => ":",
+    ternary_operation: ($) =>
+      prec.right(
+        2,
+        seq(
+          $._expression,
+          $.question_mark_operator,
+          $._expression,
+          $.colon_operator,
+          $._expression
+        )
+      ),
+    spread_operator: (_$) => "...",
+    spread_operation: ($) => prec.left(seq($.spread_operator, $._expression)),
+    _operation: ($) =>
+      choice(
+        $.unary_operation,
+        $.arithmetic_operation,
+        $.relational_operation,
+        $.equality_operation,
+        $.bitwise_shift_operation,
+        $.binary_bitwise_operation,
+        $.binary_logical_operation,
+        $.reassignment_operation,
+        $.comma_operation,
+        $.increment_operation,
+        $.decrement_operation,
+        $.ternary_operation,
+        $.spread_operation
+      ),
+    assignment_operator: (_$) => "=",
+
+    // Boolean and Primitive Value
     variable: ($) => $._identifier,
     boolean: (_$) => choice("true", "false"),
     nan: (_$) => "NaN",
@@ -516,6 +519,7 @@ module.exports = grammar({
     computed_key_value_property: ($) =>
       prec.left(seq("[", $._expression, "]", $.colon, $._expression)),
     property_name: ($) => choice($._identifier, $._number),
+
 
     function_call: ($) =>
       prec(
